@@ -16,3 +16,10 @@ export const deleteProductFromCart = createAction('deleteProductFromCart')
 export const deleteProductFromLocalCart = createAction(
   'deleteProductFromLocalCart'
 )
+
+// 7. 向服务器端发送请求, 告诉服务器哪个商品的数量要更改成多少
+export const changeServerProductNumber = createAction(
+  'changeServerProductNumber'
+)
+// 8. 更新本地购物车商品的数量
+export const changeLocalProductNumber = createAction('changeLocalProductNumber')

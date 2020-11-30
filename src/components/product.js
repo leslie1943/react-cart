@@ -23,7 +23,7 @@ class Product extends React.Component {
                 <img
                   className="shop-item-image"
                   alt=""
-                  src={product.thumbnail}
+                  src={`http://localhost:3005/${product.thumbnail}`}
                 />
                 <span className="shop-item-title">{product.title}</span>
                 <div className="shop-item-details">

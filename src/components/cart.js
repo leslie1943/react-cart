@@ -9,6 +9,14 @@ class Cart extends React.Component {
     const { loadCarts } = this.props
     loadCarts()
   }
+  changeProductNumber = (cid, event) => {
+    const { changeServerProductNumber } = this.props
+    // 获取商品最新的数量
+    const count = event.target.value
+    console.info(count)
+    // 向服务器端发送请求, 告诉服务器哪个商品的数量要更改成多少
+    changeServerProductNumber({ cid, count })
+  }
   render() {
     const { carts, deleteProductFromCart } = this.props
     return (
@@ -26,7 +34,7 @@ class Cart extends React.Component {
                 <div className="cart-item cart-column">
                   <img
                     className="cart-item-image"
-                    src={product.thumbnail}
+                    src={`http://localhost:3005${product.thumbnail}`}
                     width="100"
                     height="100"
                     alt=""
@@ -41,7 +49,7 @@ class Cart extends React.Component {
                     className="cart-quantity-input"
                     type="number"
                     value={product.count}
-                    onChange={() => {}}
+                    onChange={(e) => this.changeProductNumber(product.id, e)}
                   />
                   <button
                     onClick={() => deleteProductFromCart(product.id)}
@@ -56,7 +64,12 @@ class Cart extends React.Component {
           </div>
           <div className="cart-total">
             <strong className="cart-total-title">总价</strong>
-            <span className="cart-total-price">￥39.97</span>
+            <span className="cart-total-price">
+              ￥
+              {carts.reduce((total, product) => {
+                return (total += product.count * product.price)
+              }, 0)}
+            </span>
           </div>
         </section>
       </div>
