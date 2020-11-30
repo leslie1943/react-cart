@@ -1,7 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as cartActions from '../store/actions/cart.action'
 
 class Cart extends React.Component {
+  componentDidMount() {
+    // 向服务器端发送请求, 获取购物车列表数据
+    const { loadCarts } = this.props
+    loadCarts()
+  }
   render() {
+    const { carts, deleteProductFromCart } = this.props
     return (
       <div>
         <section className="container content-section">
@@ -12,48 +21,38 @@ class Cart extends React.Component {
             <span className="cart-quantity cart-header cart-column">数量</span>
           </div>
           <div className="cart-items">
-            <div className="cart-row">
-              <div className="cart-item cart-column">
-                <img
-                  className="cart-item-image"
-                  src="images/01.webp"
-                  width="100"
-                  height="100"
-                  alt=""
-                />
-                <span className="cart-item-title">
-                  小户型简约现代网红双人三人客厅科技布免洗布艺
+            {carts.map((product) => (
+              <div key={product.id} className="cart-row">
+                <div className="cart-item cart-column">
+                  <img
+                    className="cart-item-image"
+                    src={product.thumbnail}
+                    width="100"
+                    height="100"
+                    alt=""
+                  />
+                  <span className="cart-item-title">{product.title}</span>
+                </div>
+                <span className="cart-price cart-column">
+                  ￥{product.price}
                 </span>
+                <div className="cart-quantity cart-column">
+                  <input
+                    className="cart-quantity-input"
+                    type="number"
+                    value={product.count}
+                    onChange={() => {}}
+                  />
+                  <button
+                    onClick={() => deleteProductFromCart(product.id)}
+                    className="btn btn-danger"
+                    type="button"
+                  >
+                    删除
+                  </button>
+                </div>
               </div>
-              <span className="cart-price cart-column">￥1020</span>
-              <div className="cart-quantity cart-column">
-                <input className="cart-quantity-input" type="number" />
-                <button className="btn btn-danger" type="button">
-                  删除
-                </button>
-              </div>
-            </div>
-            <div className="cart-row">
-              <div className="cart-item cart-column">
-                <img
-                  className="cart-item-image"
-                  src="images/02.webp"
-                  alt=""
-                  width="100"
-                  height="100"
-                />
-                <span className="cart-item-title">
-                  11全网通4G手机官方iPhonexr
-                </span>
-              </div>
-              <span className="cart-price cart-column">￥4758</span>
-              <div className="cart-quantity cart-column">
-                <input className="cart-quantity-input" type="number" />
-                <button className="btn btn-danger" type="button">
-                  删除
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
           <div className="cart-total">
             <strong className="cart-total-title">总价</strong>
@@ -65,4 +64,12 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart
+const mapStateToProps = (state) => ({
+  carts: state.carts,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators(cartActions, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

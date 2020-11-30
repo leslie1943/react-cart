@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as productActions from '../store/actions/product.action'
+import * as cartActions from '../store/actions/cart.action'
 
 class Product extends React.Component {
   componentDidMount() {
@@ -10,7 +11,7 @@ class Product extends React.Component {
     loadProducts()
   }
   render() {
-    const { products } = this.props
+    const { products, addProductToCart } = this.props
     console.info(products)
     return (
       <div>
@@ -28,6 +29,7 @@ class Product extends React.Component {
                 <div className="shop-item-details">
                   <span className="shop-item-price">￥ {product.price}</span>
                   <button
+                    onClick={() => addProductToCart(product.id)}
                     className="btn btn-primary shop-item-button"
                     type="button"
                   >
@@ -50,5 +52,6 @@ const mapStateToProps = (state) => ({
 // 在组件中就可以拿到 action creator 函数: props.load, props.save
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators(productActions, dispatch),
+  ...bindActionCreators(cartActions, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Product)

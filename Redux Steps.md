@@ -12,3 +12,7 @@ export const saveProducts = createAction('save products')
 
 1. 生成`rootReducer`并导出被`createStore`的第一个参数接收
 2. 生成`rootSaga`并导出被`createStore`的第二个参数接收, 并且使用 `sagaMiddleware.run(rootSaga)`运行
+
+
+#### workflow
+🚀 `define actions` => 🚀 `emit action in biz component` => 🚀 `saga accepts and emit the action ` => 🚀 `reducer accepts action from saga` => 🚀 `return new state from reducer`
