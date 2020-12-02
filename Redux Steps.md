@@ -16,3 +16,8 @@ export const saveProducts = createAction('save products')
 
 
 ## 🚀 `define actions` => 🚀 `emit action in biz component` => 🚀 `saga accepts and emit async action ` => 🚀 `reducer accepts sync action from saga` => 🚀 `return new state from reducer`
+
+
+#### about vuex
+- `sagas` - `actions`
+- `reducers` - `muations`
